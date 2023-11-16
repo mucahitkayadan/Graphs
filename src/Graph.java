@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Graph {
     protected int[][] adjacencyMatrix;
@@ -202,6 +199,20 @@ public class Graph {
         }
 
         return -1; // No path found
+    }
+    public static int[][] createRandomAdjacencyMatrix(int size) {
+        int[][] adjacencyMatrix = new int[size][size];
+        Random random = new Random();
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i != j) {
+                    adjacencyMatrix[i][j] = random.nextInt(2);
+                }
+            }
+        }
+
+        return adjacencyMatrix;
     }
 }
 

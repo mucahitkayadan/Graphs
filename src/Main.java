@@ -2,13 +2,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int[][] adjacencyMatrix = {
+/*        int[][] adjacencyMatrix = {
                 {0, 1, 1, 0, 0},
                 {1, 0, 0, 1, 0},
                 {1, 0, 0, 1, 0},
                 {0, 1, 1, 0, 1},
                 {0, 0, 0, 1, 0}
-        };
+        };*/
+        int[][] adjacencyMatrix = Graph.createRandomAdjacencyMatrix(6);
 
         Graph graph = new Graph(adjacencyMatrix);
 
