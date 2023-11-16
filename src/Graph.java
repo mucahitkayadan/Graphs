@@ -13,14 +13,14 @@ public class Graph {
     }
 
     public boolean areAdjacent(Vertex u, Vertex v) {
-        int uIndex = u.getIndex();
-        int vIndex = v.getIndex();
+        int uIndex = u.index();
+        int vIndex = v.index();
         return adjacencyMatrix[uIndex][vIndex] != 0;
     }
 
     public List<Vertex> getListOfAdjacentVertexes(Vertex u) {
         List<Vertex> adjacentVertexes = new ArrayList<>();
-        int uIndex = u.getIndex();
+        int uIndex = u.index();
         for (int i = 0; i < numVertices; i++) {
             if (adjacencyMatrix[uIndex][i] != 0) {
                 adjacentVertexes.add(new Vertex(i));
@@ -91,8 +91,8 @@ public class Graph {
     }
 
     public boolean hasPathBetween(Vertex u, Vertex v) {
-        int uIndex = u.getIndex();
-        int vIndex = v.getIndex();
+        int uIndex = u.index();
+        int vIndex = v.index();
         boolean[] visited = new boolean[numVertices];
         dfs(uIndex, visited, new ArrayList<>());
 
@@ -176,8 +176,8 @@ public class Graph {
     }
 
     public int lengthOfShortestPath(Vertex u, Vertex v) {
-        int uIndex = u.getIndex();
-        int vIndex = v.getIndex();
+        int uIndex = u.index();
+        int vIndex = v.index();
         boolean[] visited = new boolean[numVertices];
         int[] distance = new int[numVertices];
 
