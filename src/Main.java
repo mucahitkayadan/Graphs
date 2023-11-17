@@ -1,29 +1,36 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-/*        int[][] adjacencyMatrix = {
-                {0, 1, 1, 0, 0},
-                {1, 0, 0, 1, 0},
-                {1, 0, 0, 1, 0},
-                {0, 1, 1, 0, 1},
-                {0, 0, 0, 1, 0}
-        };*/
-        int[][] adjacencyMatrix = Graph.createRandomAdjacencyMatrix(6);
+        //int[][] adjacencyMatrix = Graph.createRandomAdjacencyMatrix(6);
 
-        Graph graph = new Graph(adjacencyMatrix);
+        int[][] adjacentMatrix_W3D3Q3 = {
+     //         A  B   C  D  E  F  G  H  I
+                {0, 1, 1, 0, 0, 1, 0, 0, 0}, //A
+                {1, 0, 0, 0, 0, 1, 0, 0, 0}, //B
+                {1, 0, 0, 0, 0, 1, 1, 0, 0}, //C
+                {0, 0, 0, 0, 1, 0, 0, 0, 1}, //D
+                {0, 0, 0, 1, 0, 0, 0, 0, 1}, //E
+                {1, 1, 1, 0, 0, 0, 0, 1, 0}, //F
+                {0, 0, 1, 0, 0, 0, 0, 1, 0}, //G
+                {0, 0, 0, 0, 0, 1, 1, 0, 0}, //H
+                {0, 0, 0, 1, 1, 0, 0, 0, 0} //I
+        };
 
-        Vertex vertex1 = new Vertex(0);
-        Vertex vertex2 = new Vertex(1);
-        Vertex vertex3 = new Vertex(2);
-        Vertex vertex4 = new Vertex(3);
-        Vertex vertex5 = new Vertex(4);
+        Graph graph = new Graph(adjacentMatrix_W3D3Q3);
 
-        System.out.println("Are vertex1 and vertex2 adjacent? " + graph.areAdjacent(vertex1, vertex2));
-        System.out.println("Are vertex1 and vertex3 adjacent? " + graph.areAdjacent(vertex1, vertex3));
+        List<Vertex> vertices = new ArrayList<>();
+        for (int i = 0; i < adjacentMatrix_W3D3Q3.length; i++) {
+            vertices.add(new Vertex(i));
+        }
 
-        System.out.println("List of adjacent vertices for vertex1: " + graph.getListOfAdjacentVertexes(vertex1));
-        System.out.println("List of adjacent vertices for vertex4: " + graph.getListOfAdjacentVertexes(vertex4));
+
+        System.out.println("Are vertexA and vertexB adjacent? " + graph.areAdjacent(vertices.get(0), vertices.get(1)));
+        System.out.println("Are vertexA and vertexD adjacent? " + graph.areAdjacent(vertices.get(0), vertices.get(3)));
+
+        System.out.println("List of adjacent vertices for vertexA: " + graph.getListOfAdjacentVertexes(vertices.get(0)));
+        System.out.println("List of adjacent vertices for vertexE: " + graph.getListOfAdjacentVertexes(vertices.get(4)));
 
         Graph spanningTree = graph.getSpanningTree();
         System.out.println("Spanning tree: ");
@@ -37,8 +44,8 @@ public class Main {
 
         System.out.println("Is the graph connected? " + graph.isConnected());
 
-        System.out.println("Does a path exist between vertex1 and vertex4? " + graph.hasPathBetween(vertex1, vertex4));
-        System.out.println("Does a path exist between vertex1 and vertex5? " + graph.hasPathBetween(vertex1, vertex5));
+        System.out.println("Does a path exist between vertexA and vertexH? " + graph.hasPathBetween(vertices.get(0), vertices.get(7)));
+        System.out.println("Does a path exist between vertexA and vertexD? " + graph.hasPathBetween(vertices.get(0), vertices.get(3)));
 
         System.out.println("Does the graph contain a cycle? " + graph.containsCycle());
 
@@ -46,8 +53,8 @@ public class Main {
 
         System.out.println("Is the graph bipartite? " + graph.isBipartite());
 
-        System.out.println("Length of the shortest path between vertex1 and vertex4: " + graph.lengthOfShortestPath(vertex1, vertex4));
-        System.out.println("Length of the shortest path between vertex1 and vertex5: " + graph.lengthOfShortestPath(vertex1, vertex5));
+        System.out.println("Length of the shortest path between vertexB and vertexG: " + graph.lengthOfShortestPath(vertices.get(1), vertices.get(6)));
+        System.out.println("Length of the shortest path between vertexA and vertexD: " + graph.lengthOfShortestPath(vertices.get(0), vertices.get(3)));
     }
 
     private static void printAdjacencyMatrix(int[][] matrix) {
