@@ -74,6 +74,14 @@ public class Graph {
             }
         }
     }
+    private void dfs(int vertex, boolean[] visited) {
+        visited[vertex] = true;
+        for (int i = 0; i < adjacencyMatrix.length; i++) {
+            if (adjacencyMatrix[vertex][i] == 1 && !visited[i]) {
+                dfs(i, visited);
+            }
+        }
+    }
 
     public boolean isConnectedDFS() {
         boolean[] visited = new boolean[adjacencyMatrix.length];
@@ -85,16 +93,6 @@ public class Graph {
         }
         return true;
     }
-
-    private void dfs(int vertex, boolean[] visited) {
-        visited[vertex] = true;
-        for (int i = 0; i < adjacencyMatrix.length; i++) {
-            if (adjacencyMatrix[vertex][i] == 1 && !visited[i]) {
-                dfs(i, visited);
-            }
-        }
-    }
-
     public boolean hasPathBetweenDFS(Vertex vertex1, Vertex vertex2) {
         int index1 = vertex1.index();
         int index2 = vertex2.index();
@@ -216,51 +214,25 @@ public class Graph {
         }
     }
 
-    public boolean areAdjacentBFS(Vertex vertex1, Vertex vertex2) {
-        int index1 = vertex1.index();
-        int index2 = vertex2.index();
-        return adjacencyMatrix[index1][index2] == 1;
-    }
 
-    public List<Vertex> getListOfAdjacentVertexesBFS(Vertex vertex) {
-        return getVertices(vertex);
-    }
-
-    public Graph getSpanningTreeBFS() {
-        int[][] spanningTreeMatrix = new int[adjacencyMatrix.length][adjacencyMatrix.length];
-        boolean[] visited = new boolean[adjacencyMatrix.length];
-        bfs(0, spanningTreeMatrix, visited);
-        return new Graph(spanningTreeMatrix);
-    }
 
     private void bfs(int start, int[][] spanningTreeMatrix, boolean[] visited) {
         Queue<Integer> queue = new LinkedList<>();
         queue.add(start);
         visited[start] = true;
+
         while (!queue.isEmpty()) {
             int vertex = queue.poll();
+
             for (int i = 0; i < adjacencyMatrix.length; i++) {
                 if (adjacencyMatrix[vertex][i] == 1 && !visited[i]) {
                     spanningTreeMatrix[vertex][i] = 1;
                     spanningTreeMatrix[i][vertex] = 1;
-                    queue.add(i);
                     visited[i] = true;
+                    queue.add(i);
                 }
             }
         }
-    }
-
-    public List<List<Vertex>> getConnectedComponentsBFS() {
-        List<List<Vertex>> connectedComponents = new ArrayList<>();
-        boolean[] visited = new boolean[adjacencyMatrix.length];
-        for (int i = 0; i < adjacencyMatrix.length; i++) {
-            if (!visited[i]) {
-                List<Vertex> component = new ArrayList<>();
-                bfs(i, visited, component);
-                connectedComponents.add(component);
-            }
-        }
-        return connectedComponents;
     }
 
     private void bfs(int start, boolean[] visited, List<Vertex> component) {
@@ -278,7 +250,57 @@ public class Graph {
             }
         }
     }
+    public boolean areAdjacentBFS(Vertex vertex1, Vertex vertex2) {
+        int index1 = vertex1.index();
+        int index2 = vertex2.index();
+        boolean[] visited = new boolean[adjacencyMatrix.length];
+        return bfsHasPath(index1, index2, visited);
+    }
 
+    public List<Vertex> getListOfAdjacentVertexesBFS(Vertex vertex) {
+        return getVerticesBFS(vertex);
+    }
+    public Graph getSpanningTreeBFS() {
+        int[][] spanningTreeMatrix = new int[adjacencyMatrix.length][adjacencyMatrix.length];
+        boolean[] visited = new boolean[adjacencyMatrix.length];
+        bfs(0, spanningTreeMatrix, visited);
+        return new Graph(spanningTreeMatrix);
+    }
+    private List<Vertex> getVerticesBFS(Vertex vertex) {
+        List<Vertex> adjacentVertices = new ArrayList<>();
+        int index = vertex.index();
+        boolean[] visited = new boolean[adjacencyMatrix.length];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(index);
+        visited[index] = true;
+
+        while (!queue.isEmpty()) {
+            int v = queue.poll();
+
+            for (int i = 0; i < adjacencyMatrix.length; i++) {
+                if (adjacencyMatrix[v][i] == 1 && !visited[i]) {
+                    adjacentVertices.add(new Vertex(i));
+                    visited[i] = true;
+                    queue.add(i);
+                }
+            }
+        }
+
+        return adjacentVertices;
+    }
+
+    public List<List<Vertex>> getConnectedComponentsBFS() {
+        List<List<Vertex>> connectedComponents = new ArrayList<>();
+        boolean[] visited = new boolean[adjacencyMatrix.length];
+        for (int i = 0; i < adjacencyMatrix.length; i++) {
+            if (!visited[i]) {
+                List<Vertex> component = new ArrayList<>();
+                bfs(i, visited, component);
+                connectedComponents.add(component);
+            }
+        }
+        return connectedComponents;
+    }
 
     public boolean hasPathBetweenBFS(Vertex vertex1, Vertex vertex2) {
         int index1 = vertex1.index();
@@ -294,14 +316,15 @@ public class Graph {
 
         while (!queue.isEmpty()) {
             int vertex = queue.poll();
+
             if (vertex == end) {
                 return true;
             }
 
             for (int i = 0; i < adjacencyMatrix.length; i++) {
                 if (adjacencyMatrix[vertex][i] == 1 && !visited[i]) {
-                    queue.add(i);
                     visited[i] = true;
+                    queue.add(i);
                 }
             }
         }
